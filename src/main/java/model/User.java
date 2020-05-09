@@ -20,7 +20,19 @@ public class User {
     @Column(name = "money")
     private Long money;
 
+    @Column(name = "role")
+    private String role ;
+
+
     public User() {
+
+    }
+
+    public User(String name, String password,Long money,String role ) {
+        this.name = name;
+        this.password = password;
+        this.money = money;
+        this.role = role;
 
     }
 
@@ -30,12 +42,16 @@ public class User {
         this.money = money;
     }
 
-    public User(long id, String name, String password, Long money) {
+    public User(long id, String name, String password,Long money,String role ) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.money = money;
+        this.role = role;
+
     }
+
+
 
     public long getId() {
         return id;
@@ -69,6 +85,10 @@ public class User {
         this.money = money;
     }
 
+    public String getRole() { return role; }
+
+    public void setRole(String role) { this.role = role; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -90,7 +110,8 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", money=" + money +
+                ", money=" + money + '\'' +
+                ", role=" + role +
                 '}';
     }
 }

@@ -17,7 +17,7 @@ public interface UserDAO {
 
     public List<User> getAllUsers() ;
 
-    public User getClientById(long id);
+    public User getUserById(long id);
 
     public void deleteUser(Long id);
 

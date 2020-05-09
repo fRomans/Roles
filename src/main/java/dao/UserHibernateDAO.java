@@ -4,9 +4,6 @@ import model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.service.ServiceRegistry;
-import org.hibernate.cfg.Configuration;
 import util.DBHelper;
 
 import java.util.List;
@@ -62,7 +59,7 @@ public class UserHibernateDAO implements UserDAO {
     }
 
 
-    public User getClientById(long id) {
+    public User getUserById(long id) {
         return (User) sessionFactory.openSession()
                 .get(User.class, id);
     }
@@ -73,7 +70,7 @@ public class UserHibernateDAO implements UserDAO {
         Session session = sessionFactory.openSession();
         Transaction tx1 = session.beginTransaction();
         try {
-            session.delete(getClientById(id));
+            session.delete(getUserById(id));
             tx1.commit();
         } catch (Exception e) {
             if (tx1 != null) tx1.rollback();

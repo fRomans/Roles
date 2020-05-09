@@ -19,11 +19,8 @@
             <td>${user.getPassword()}</td>
             <td>${user.getMoney()}</td>
             <td>
-                <form action = "/forward" method="post">
+                <form action = "/users/update" method="get">
                     <input type="hidden" name="id" value="${user.getId()}">
-                    <input type="hidden" name="name" value="${user.getName()}">
-                    <input type="hidden" name="password" value="${user.getPassword()}">
-                    <input type="hidden" name="money" value="${user.getMoney()}">
                     <input type="submit" value="Изменить" style="float:left">
                 </form>
                 <form action="/users/delete" method="post">
@@ -34,7 +31,7 @@
     </c:forEach>
 </table>
 
-<form action = "/add" method="post">
+<form action = "/add" method="get">
     <input type="submit" value="Добавить нового пользователя">
 </form>
 

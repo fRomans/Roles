@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(urlPatterns = "/users", name = "MyServlet")
-public class MyServlet extends HttpServlet {
+public class UsersServlet extends HttpServlet {
 
     private UserService service = UserService.getInstance();
 
@@ -45,33 +45,6 @@ public class MyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        resp.setContentType("text/html;charset=utf-8");
-        String name = req.getParameter("name");
-        String password = req.getParameter("password");
-        Long money = 0L;
-        try {
-            money = new Long(req.getParameter("money"));
-           // throw new NumberFormatException("rrrr");
-        } catch (NumberFormatException e) {
-            req.setAttribute("NumberFormatException", "Ошибка формата числа");
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/addUser.jsp");
-            dispatcher.forward(req, resp);
-            System.out.println("Ошибка формата числа -" + e);
 
-        }
-        User user = new User(name, password, money);
-
-        try {
-            service.addUser(user);
-        //  throw new SQLException("eeee");
-
-        } catch (SQLException e) {
-            req.setAttribute("AddUserException", "Ошибка SQL при добавлении user");
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/addUser.jsp");
-            dispatcher.forward(req, resp);
-            e.printStackTrace();
-        }
-        resp.sendRedirect("/users");
     }
-
 }

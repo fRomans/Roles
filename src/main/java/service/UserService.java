@@ -2,12 +2,8 @@ package service;
 
 import dao.UserDAO;
 import dao.UserDaoFactory;
-import dao.UserHibernateDAO;
 import model.User;
-import org.hibernate.SessionFactory;
-import util.DBHelper;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -18,12 +14,11 @@ public class UserService {
 
     private UserService() {
 
-        this.dao = UserDaoFactory.getRealization("hibernateConn.properties");//todo получать dao из фабрики
+        this.dao = UserDaoFactory.getRealization();
     }
 
     private UserService(UserDAO dao) {
-
-        this.dao = dao;//todo получать dao из фабрики
+        this.dao = dao;
     }
 
     public static UserService getInstance() {
@@ -48,7 +43,7 @@ public class UserService {
     }
 
     public User getUserById(long id) {
-        User user = dao.getClientById(id);
+        User user = dao.getUserById(id);
         return user;
     }
 

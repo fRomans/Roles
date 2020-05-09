@@ -9,14 +9,14 @@ import java.util.List;
 
 public class UserJDBCDao implements UserDAO {
     private Connection connection;
-private static UserJDBCDao instance;
+    private static UserJDBCDao instance;
 
     private UserJDBCDao() {
-     connection = DBHelper.getConnection();
+        connection = DBHelper.getConnection();
     }
 
-    public static UserJDBCDao getInstance(){
-        if (instance==null){
+    public static UserJDBCDao getInstance() {
+        if (instance == null) {
             instance = new UserJDBCDao();
         }
         return instance;
@@ -43,7 +43,8 @@ private static UserJDBCDao instance;
 
             while (result.next()) {
                 bankClient = new User(result.getLong(1), result.getString(2),
-                        result.getString(3), result.getLong(4));
+                        result.getString(3), result.getLong(4),
+                        result.getString(5));
             }
 
             result.close();
@@ -65,7 +66,8 @@ private static UserJDBCDao instance;
             ResultSet result = stmt.getResultSet();
             while (result.next()) {
                 userslist.add(new User(result.getLong(1), result.getString(2),
-                        result.getString(3), result.getLong(4)));
+                        result.getString(3), result.getLong(4),
+                        result.getString(5)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -74,7 +76,7 @@ private static UserJDBCDao instance;
     }
 
     @Override
-    public User getClientById(long id) {
+    public User getUserById(long id) {
 
         Statement stmt = null;
         User user = null;
@@ -85,7 +87,8 @@ private static UserJDBCDao instance;
 
             while (result.next()) {
                 user = new User(result.getLong(1), result.getString(2),
-                        result.getString(3), result.getLong(4));
+                        result.getString(3), result.getLong(4),
+                        result.getString(5));
             }
             result.close();
             stmt.close();
@@ -96,13 +99,13 @@ private static UserJDBCDao instance;
     }
 
     @Override
-    public void deleteUser(Long id)  {
+    public void deleteUser(Long id) {
         Statement stmt = null;
         try {
             stmt = connection.createStatement();
 
-        stmt.execute("delete  from user_db where id ='" + id + "'");
-        stmt.close();
+            stmt.execute("delete  from user_db where id ='" + id + "'");
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -114,32 +117,34 @@ private static UserJDBCDao instance;
         PreparedStatement stmt = null;
         try {
             stmt = connection
-                    .prepareStatement("UPDATE  `user_db` SET name = ?, password = ?, money = ? WHERE id = " + user.getId());
+                    .prepareStatement("UPDATE  `user_db` SET name = ?, password = ?, money = ?, role = ? WHERE id = " + user.getId());
 
-        stmt.setString(1, user.getName());
-        stmt.setString(2, user.getPassword());
-        stmt.setLong(3, user.getMoney());
-        stmt.executeUpdate();
-        stmt.close();
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getPassword());
+            stmt.setLong(3, user.getMoney());
+            stmt.setString(4, user.getRole());
+            stmt.executeUpdate();
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void addUser(User user)  {
+    public void addUser(User user) {
 //проверить наличие имени и пароля
         if (!validateClient(user.getName(), user.getPassword())) {
             System.out.println("!!! Не прошло валидацию!!!");
             return;
         }
-       try {
+        try {
 
-        PreparedStatement stmt = connection
-                .prepareStatement("insert into  `user_db`(name, password, money) values(?,?,?)");
+            PreparedStatement stmt = connection
+                    .prepareStatement("insert into  `user_db`(name, password, money,role) values(?,?,?,?)");
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getPassword());
             stmt.setLong(3, user.getMoney());
+            stmt.setString(4, user.getRole());
             stmt.executeUpdate();
             stmt.close();
         } catch (SQLException e) {
@@ -148,14 +153,14 @@ private static UserJDBCDao instance;
     }
 
 
-    public void createTable()  {
+    public void createTable() {
         Statement stmt = null;
         try {
             stmt = connection.createStatement();
 
-        stmt.execute("create table if not exists user_db (id bigint auto_increment," +
-                " name varchar(256), password varchar(256), money bigint, primary key (id))");
-        stmt.close();
+            stmt.execute("create table if not exists user_db (id bigint auto_increment," +
+                    " name varchar(256), password varchar(256), money bigint,role varchar(45), primary key (id))");
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -167,8 +172,8 @@ private static UserJDBCDao instance;
         try {
             stmt = connection.createStatement();
 
-        stmt.executeUpdate("DROP TABLE IF EXISTS user_db");
-        stmt.close();
+            stmt.executeUpdate("DROP TABLE IF EXISTS user_db");
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
