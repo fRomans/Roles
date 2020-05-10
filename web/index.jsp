@@ -4,11 +4,12 @@
   <title>Здравствуйте!</title>
 </head>
 <body>
-Если вы хотите начать работу с базой данных пользователей - <br>
-нажмите кнопку ниже:
+Если вы хотите начать работу введите имя и пароль:<br>
 
-<form action = "/users" method="get">
-  <input type="submit" value="Начать работу с базой данных">
+<form action = "/" method="get">
+  <input type="text" name="name" required placeholder="login"><br>
+  <input type="text" name="password" required placeholder="password"><br><br>
+  <input type="submit" value="ВОЙТИ">
 </form>
 </body>
 </html>

@@ -21,14 +21,14 @@ public class User {
     private Long money;
 
     @Column(name = "role")
-    private String role ;
+    private ROLE role ;
 
 
     public User() {
 
     }
 
-    public User(String name, String password,Long money,String role ) {
+    public User(String name, String password,Long money,ROLE role ) {
         this.name = name;
         this.password = password;
         this.money = money;
@@ -42,7 +42,7 @@ public class User {
         this.money = money;
     }
 
-    public User(long id, String name, String password,Long money,String role ) {
+    public User(long id, String name, String password,Long money,ROLE role ) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -85,9 +85,9 @@ public class User {
         this.money = money;
     }
 
-    public String getRole() { return role; }
+    public ROLE getRole() { return role; }
 
-    public void setRole(String role) { this.role = role; }
+    public void setRole(ROLE role) { this.role = role; }
 
     @Override
     public boolean equals(Object o) {
@@ -96,6 +96,10 @@ public class User {
         User that = (User) o;
         return Objects.equals(getName(), that.getName()) &&
                 Objects.equals(getMoney(), that.getMoney());
+    }
+
+    public enum ROLE{   //todo  попробую  через enum, проблема в jdbcDao в пятом столбце
+        UNKNOWN, USER, ADMIN
     }
 
     @Override

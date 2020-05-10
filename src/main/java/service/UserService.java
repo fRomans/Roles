@@ -53,4 +53,30 @@ public class UserService {
 
     }
 
+    public User.ROLE getRoleByLoginPassword(final String name, final String password) {
+        User.ROLE role = User.ROLE.UNKNOWN;
+        List<User> users = dao.getAllUsers();
+        for (User user : users) {
+            if (user.getName().equals(name) && user.getPassword().equals(password)) {
+                role = user.getRole();
+            }
+        }
+
+        return role;
+    }
+
+    public boolean userIsExist(final String name, final String password) {
+        List<User> users = dao.getAllUsers();
+        boolean result = false;
+        for (User user : users) {
+            if (user.getName().equals(name) && user.getPassword().equals(password)) {
+                result = true;
+                break;
+            }
+        }
+
+        return result;
+    }
+
+
 }

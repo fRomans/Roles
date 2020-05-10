@@ -44,7 +44,7 @@ public class UserJDBCDao implements UserDAO {
             while (result.next()) {
                 bankClient = new User(result.getLong(1), result.getString(2),
                         result.getString(3), result.getLong(4),
-                        result.getString(5));
+                        (User.ROLE) result.getObject(5));
             }
 
             result.close();
@@ -67,7 +67,7 @@ public class UserJDBCDao implements UserDAO {
             while (result.next()) {
                 userslist.add(new User(result.getLong(1), result.getString(2),
                         result.getString(3), result.getLong(4),
-                        result.getString(5)));
+                        (User.ROLE) result.getObject(5)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -88,7 +88,7 @@ public class UserJDBCDao implements UserDAO {
             while (result.next()) {
                 user = new User(result.getLong(1), result.getString(2),
                         result.getString(3), result.getLong(4),
-                        result.getString(5));
+                        (User.ROLE) result.getObject(5));
             }
             result.close();
             stmt.close();
@@ -122,7 +122,7 @@ public class UserJDBCDao implements UserDAO {
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getPassword());
             stmt.setLong(3, user.getMoney());
-            stmt.setString(4, user.getRole());
+            stmt.setString(4, user.getRole().toString());
             stmt.executeUpdate();
             stmt.close();
         } catch (SQLException e) {
@@ -144,13 +144,14 @@ public class UserJDBCDao implements UserDAO {
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getPassword());
             stmt.setLong(3, user.getMoney());
-            stmt.setString(4, user.getRole());
+            stmt.setString(4, user.getRole().toString());
             stmt.executeUpdate();
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
 
     public void createTable() {
