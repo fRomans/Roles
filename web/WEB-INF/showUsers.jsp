@@ -11,6 +11,7 @@
         <td>name</td>
         <td>password</td>
         <td>money</td>
+        <td>role</td>
     </tr>
     <c:forEach items="${users}" var = "user">
         <tr>

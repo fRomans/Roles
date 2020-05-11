@@ -81,7 +81,19 @@ public class AuthFilter implements Filter {
 
         if (role.equals("admin")) {
 
-            resp.sendRedirect("/admin");
+            List<User> users = null;
+            try {
+
+                users = service.getAllUsers();
+                //  throw new SQLException("ffffff") ;
+
+            } catch (SQLException e) {
+                req.setAttribute("SQLException", "SQL запрос не выполнен");
+                e.printStackTrace();
+            }
+            req.setAttribute("users", users);
+            RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/showUsers.jsp");
+            dispatcher.forward(req, resp);
 
         } else if (role.equals("user")) {
 
@@ -90,7 +102,10 @@ public class AuthFilter implements Filter {
 
         } else {
 
-            resp.sendRedirect("/WEB-INF/index.jsp");
+            req.setAttribute("nodata","Нет доступа");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/");
+            dispatcher.forward(req, resp);
+
         }
     }
 

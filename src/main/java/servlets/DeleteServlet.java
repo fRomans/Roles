@@ -43,7 +43,7 @@ public class DeleteServlet extends HttpServlet {
             e.printStackTrace();
 
         }
-        resp.sendRedirect("/users");
+        resp.sendRedirect("/admin");
 
     }
 

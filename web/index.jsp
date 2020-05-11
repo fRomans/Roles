@@ -11,5 +11,7 @@
   <input type="text" name="password" required placeholder="password"><br><br>
   <input type="submit" value="ВОЙТИ">
 </form>
+
+<p> ${nodata}</p>
 </body>
 </html>

@@ -22,7 +22,7 @@ public class AddServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/addUser.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/addUser.jsp");
         dispatcher.forward(req, resp);
     }
 
@@ -31,6 +31,8 @@ public class AddServlet extends HttpServlet {
         resp.setContentType("text/html;charset=utf-8");
         String name = req.getParameter("name");
         String password = req.getParameter("password");
+        String role = req.getParameter("role");
+
         Long money = 0L;
         try {
             money = new Long(req.getParameter("money"));
@@ -42,7 +44,7 @@ public class AddServlet extends HttpServlet {
             System.out.println("Ошибка формата числа -" + e);
 
         }
-        User user = new User(name, password, money);
+        User user = new User(name, password, money,role);
 
         try {
             service.addUser(user);
@@ -54,7 +56,7 @@ public class AddServlet extends HttpServlet {
             dispatcher.forward(req, resp);
             e.printStackTrace();
         }
-        resp.sendRedirect("/users");
+        resp.sendRedirect("/admin");
     }
 
 }
