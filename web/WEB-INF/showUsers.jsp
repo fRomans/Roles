@@ -18,6 +18,7 @@
             <td>${user.getName()}</td>
             <td>${user.getPassword()}</td>
             <td>${user.getMoney()}</td>
+            <td>${user.getRole()}</td>
             <td>
                 <form action = "/users/update" method="get">
                     <input type="hidden" name="id" value="${user.getId()}">
@@ -34,7 +35,8 @@
 <form action = "/add" method="get">
     <input type="submit" value="Добавить нового пользователя">
 </form>
-
+<br><br>
+<a href="<c:url value='/logout' />">Logout</a>
 <p> ${SQLException}</p>
 
 </body>

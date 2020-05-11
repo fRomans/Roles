@@ -38,6 +38,7 @@ public class UpdateServlet extends HttpServlet {
         user.setName(req.getParameter("name"));
         user.setPassword(req.getParameter("password"));
         user.setMoney(new Long(req.getParameter("money")));
+        user.setRole(req.getParameter("role"));
         try {
             service.updateUser(user);
           // throw new SQLException("eeee");

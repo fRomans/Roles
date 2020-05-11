@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import static java.util.Objects.nonNull;
 
 @WebFilter(
-        urlPatterns = "/",
+        urlPatterns = "/users",
         filterName = "AuthFilter",
         description = "Filter all admin URLs"
 )
@@ -34,7 +34,7 @@ public class AuthFilter implements Filter {
                          final FilterChain filterChain) throws IOException, ServletException {
 
         final HttpServletRequest req = (HttpServletRequest) request;
-        final HttpServletResponse res = (HttpServletResponse) response;
+        final HttpServletResponse resp = (HttpServletResponse) response;
 
         final String login = req.getParameter("name");
         final String password = req.getParameter("password");
@@ -48,24 +48,24 @@ public class AuthFilter implements Filter {
                 nonNull(session.getAttribute("login")) &&
                 nonNull(session.getAttribute("password"))) {
 
-            final User.ROLE role = (User.ROLE) session.getAttribute("role");
+            final String role =  session.getAttribute("role").toString();
 
-            moveToMenu(req, res, role);
+            moveToMenu(req, resp, role);
 
 
         } else if (service.userIsExist(login, password)) {
 
-            final User.ROLE role = service.getRoleByLoginPassword(login, password);
+            final String role = service.getRoleByLoginPassword(login, password);
 
             req.getSession().setAttribute("password", password);
             req.getSession().setAttribute("login", login);
             req.getSession().setAttribute("role", role);
 
-            moveToMenu(req, res, role);
+            moveToMenu(req, resp, role);
 
         } else {
 
-            moveToMenu(req, res, User.ROLE.UNKNOWN);
+            moveToMenu(req, resp, "UNKNOWN");
         }
     }
 
@@ -75,22 +75,22 @@ public class AuthFilter implements Filter {
      * If access 'user' move to user menu.
      */
     private void moveToMenu(final HttpServletRequest req,
-                            final HttpServletResponse res,
-                            final User.ROLE role)
+                            final HttpServletResponse resp,
+                            final String role)
             throws ServletException, IOException {
 
 
-        if (role.equals(User.ROLE.ADMIN)) {
+        if (role.equals("admin")) {
 
-            req.getRequestDispatcher("/WEB-INF/showUsers.jsp").forward(req, res);
+            resp.sendRedirect("/users");
 
-        } else if (role.equals(User.ROLE.USER)) {
+        } else if (role.equals("user")) {
 
-            req.getRequestDispatcher("/WEB-INF/userView.jsp").forward(req, res);
+            req.getRequestDispatcher("/WEB-INF/userView.jsp").forward(req, resp);
 
         } else {
 
-            req.getRequestDispatcher("/WEB-INF/index.jsp").forward(req, res);
+            req.getRequestDispatcher("/WEB-INF/index.jsp").forward(req, resp);
         }
     }
 

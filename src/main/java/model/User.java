@@ -21,14 +21,14 @@ public class User {
     private Long money;
 
     @Column(name = "role")
-    private ROLE role ;
+    private String role ;
 
 
     public User() {
 
     }
 
-    public User(String name, String password,Long money,ROLE role ) {
+    public User(String name, String password,Long money,String role ) {
         this.name = name;
         this.password = password;
         this.money = money;
@@ -42,7 +42,7 @@ public class User {
         this.money = money;
     }
 
-    public User(long id, String name, String password,Long money,ROLE role ) {
+    public User(long id, String name, String password,Long money,String role ) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -85,9 +85,9 @@ public class User {
         this.money = money;
     }
 
-    public ROLE getRole() { return role; }
+    public String getRole() { return role; }
 
-    public void setRole(ROLE role) { this.role = role; }
+    public void setRole(String role) { this.role = role; }
 
     @Override
     public boolean equals(Object o) {
@@ -98,9 +98,9 @@ public class User {
                 Objects.equals(getMoney(), that.getMoney());
     }
 
-    public enum ROLE{   //todo  попробую  через enum, проблема в jdbcDao в пятом столбце
-        UNKNOWN, USER, ADMIN
-    }
+//    public enum ROLE{   //todo  попробую  через enum, проблема в jdbcDao в пятом столбце
+//        UNKNOWN, USER, ADMIN
+//    }
 
     @Override
     public int hashCode() {

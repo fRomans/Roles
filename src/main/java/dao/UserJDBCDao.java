@@ -44,7 +44,7 @@ public class UserJDBCDao implements UserDAO {
             while (result.next()) {
                 bankClient = new User(result.getLong(1), result.getString(2),
                         result.getString(3), result.getLong(4),
-                        (User.ROLE) result.getObject(5));
+                         result.getString(5));
             }
 
             result.close();
@@ -67,7 +67,7 @@ public class UserJDBCDao implements UserDAO {
             while (result.next()) {
                 userslist.add(new User(result.getLong(1), result.getString(2),
                         result.getString(3), result.getLong(4),
-                        (User.ROLE) result.getObject(5)));
+                         result.getString(5)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -88,7 +88,7 @@ public class UserJDBCDao implements UserDAO {
             while (result.next()) {
                 user = new User(result.getLong(1), result.getString(2),
                         result.getString(3), result.getLong(4),
-                        (User.ROLE) result.getObject(5));
+                        result.getString(5));
             }
             result.close();
             stmt.close();

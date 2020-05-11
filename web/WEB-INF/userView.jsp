@@ -14,8 +14,8 @@
 <p>Информация о пользователе:</p><br><br>
 <p>Имя: ${user.getName()}</p><br>
 <p>Деньги: ${user.getName()}</p><br>
-<p>Роль: ${user.getRole()}</p>
-
+<p>Роль: ${user.getRole()}<br><br>
+<a href="<c:url value='/logout' />">Logout</a>
 
 </body>
 </html>

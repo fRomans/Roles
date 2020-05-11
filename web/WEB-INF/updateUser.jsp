@@ -12,6 +12,8 @@
     <input type="text" name="name" value="${user.name}" placeholder=${user.name}>
     <input type="text" name="password" value="${user.password}" placeholder=${user.password}>
     <input type="text" name="money" value="${user.money}" placeholder=${user.money}>
+    <input type="text" name="role" value="${user.role}" placeholder=${user.role}>
+
     <input type="submit" value="Обновить">
 </form>
 
