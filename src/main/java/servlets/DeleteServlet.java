@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 
-@WebServlet(urlPatterns = "/users/delete", name = "DeleteServlet")
+@WebServlet(urlPatterns = "/admin/delete", name = "DeleteServlet")
 public class DeleteServlet extends HttpServlet {
 
     private UserService service = UserService.getInstance();

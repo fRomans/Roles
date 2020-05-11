@@ -4,7 +4,7 @@
     <title>Добавить нового пользователя</title>
 </head>
 <body>
-<form action = "/add" method="post">
+<form action = "/admin/add" method="post">
     <input required type="text" name="name" placeholder="имя">
     <input required type="text" name="password" placeholder="пароль">
     <input required type="text" name="money" placeholder="деньги">

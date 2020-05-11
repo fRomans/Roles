@@ -7,7 +7,7 @@
 
 Редактировать пользователя
 
-<form action="/users/update" method="post">
+<form action="/admin/update" method="post">
     <input type="hidden" name = "id" value="${user.id}">
     <input type="text" name="name" value="${user.name}" placeholder=${user.name}>
     <input type="text" name="password" value="${user.password}" placeholder=${user.password}>

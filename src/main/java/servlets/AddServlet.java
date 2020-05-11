@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 
-@WebServlet(urlPatterns = "/add", name = "AddServlet")
+@WebServlet(urlPatterns = "/admin/add", name = "AddServlet")
 public class AddServlet extends HttpServlet {
 
     private UserService service = UserService.getInstance();

@@ -6,7 +6,7 @@
 <body>
 
 Вы действительно хотите удалить пользователя ${param.id}?
-<form action="/users/delete" method="post">
+<form action="/admin/delete" method="post">
 <input type="hidden" name="id" value="${param.id}">
 <input type="submit" value="Удалить">
 </form>

@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import static java.util.Objects.nonNull;
 
 @WebFilter(
-        urlPatterns = "/users",
+        urlPatterns = "/admin",
         filterName = "AuthFilter",
         description = "Filter all admin URLs"
 )
@@ -79,18 +79,18 @@ public class AuthFilter implements Filter {
                             final String role)
             throws ServletException, IOException {
 
-
         if (role.equals("admin")) {
 
-            resp.sendRedirect("/users");
+            resp.sendRedirect("/admin");
 
         } else if (role.equals("user")) {
+
 
             req.getRequestDispatcher("/WEB-INF/userView.jsp").forward(req, resp);
 
         } else {
 
-            req.getRequestDispatcher("/WEB-INF/index.jsp").forward(req, resp);
+            resp.sendRedirect("/WEB-INF/index.jsp");
         }
     }
 

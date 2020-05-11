@@ -20,11 +20,11 @@
             <td>${user.getMoney()}</td>
             <td>${user.getRole()}</td>
             <td>
-                <form action = "/users/update" method="get">
+                <form action = "/admin/update" method="get">
                     <input type="hidden" name="id" value="${user.getId()}">
                     <input type="submit" value="Изменить" style="float:left">
                 </form>
-                <form action="/users/delete" method="post">
+                <form action="/admin/delete" method="post">
                     <input type="hidden" name="id" value="${user.getId()}">
                     <input type="submit" value="Удалить" style="float:left">
                 </form></td>
@@ -32,7 +32,7 @@
     </c:forEach>
 </table>
 
-<form action = "/add" method="get">
+<form action = "/admin/add" method="get">
     <input type="submit" value="Добавить нового пользователя">
 </form>
 <br><br>

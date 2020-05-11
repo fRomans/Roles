@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = "/users", name = "MyServlet")
+@WebServlet(urlPatterns = "/admin", name = "MyServlet")
 public class UsersServlet extends HttpServlet {
 
     private UserService service = UserService.getInstance();
