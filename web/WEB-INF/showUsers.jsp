@@ -38,6 +38,7 @@
 </form>
 <br><br>
 <a href="<c:url value='/logout' />">Logout</a>
+
 <p> ${SQLException}</p>
 
 </body>

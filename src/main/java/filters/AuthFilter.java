@@ -96,10 +96,8 @@ public class AuthFilter implements Filter {
             dispatcher.forward(req, resp);
 
         } else if (role.equals("user")) {
-
-
-            req.getRequestDispatcher("/WEB-INF/userView.jsp").forward(req, resp);
-
+            resp.sendRedirect("/user");
+            
         } else {
 
             req.setAttribute("nodata","Нет доступа");
