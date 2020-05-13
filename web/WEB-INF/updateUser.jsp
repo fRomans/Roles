@@ -12,7 +12,12 @@
     <input type="text" name="name" value="${user.name}" placeholder=${user.name}>
     <input type="text" name="password" value="${user.password}" placeholder=${user.password}>
     <input type="text" name="money" value="${user.money}" placeholder=${user.money}>
-    <input type="text" name="role" value="${user.role}" placeholder=${user.role}>
+    <select  name="role"  size="1">
+        <option value="admin">admin</option>
+        <option  value="user">user</option>
+    <option selected="selected">${user.role}</option>
+
+    </select>
 
     <input type="submit" value="Обновить">
 </form>

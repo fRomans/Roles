@@ -11,19 +11,19 @@ import java.util.List;
 
 public interface UserDAO {
 
-    public boolean validateClient(String name, String password);
+     boolean validateClient(String name, String password);
 
-    public User getClientByName(String name);
+     User getClientByName(String name);
 
-    public List<User> getAllUsers() ;
+     List<User> getAllUsers() ;
 
-    public User getUserById(long id);
+     User getUserById(long id);
 
-    public void deleteUser(Long id);
+     void deleteUser(Long id) throws SQLException;
 
-    public void updateUser(User user);
+     void updateUser(User user) throws SQLException;
 
-    public void addUser(User user) ;
+     void addUser(User user) throws SQLException;
 
 
 

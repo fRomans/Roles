@@ -25,21 +25,22 @@ public class UserJDBCDao implements UserDAO {
     //проверить наличие имени и пароля
     @Override
     public boolean validateClient(String name, String password) {
-        boolean yes = true;
+        boolean availability = true;// проверка НАЛИЧИЯ name/password
         if (name == null || password == null) {
-            yes = false;
+            availability = false;
         }
-        return yes;
+        return availability;
     }
 
     @Override
     public User getClientByName(String name) {
-        Statement stmt = null;
+        PreparedStatement stmt ;
         User bankClient = null;
         try {
-            stmt = connection.createStatement();
-
-            ResultSet result = stmt.executeQuery("select * from user_db where name='" + name + "'");
+            stmt = connection
+                    .prepareStatement("select * from user_db where name= ?");
+            stmt.setString(1, name);
+            ResultSet result = stmt.executeQuery();
 
             while (result.next()) {
                 bankClient = new User(result.getLong(1), result.getString(2),
@@ -67,7 +68,7 @@ public class UserJDBCDao implements UserDAO {
             while (result.next()) {
                 userslist.add(new User(result.getLong(1), result.getString(2),
                         result.getString(3), result.getLong(4),
-                         result.getString(5)));
+                        result.getString(5)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -78,11 +79,13 @@ public class UserJDBCDao implements UserDAO {
     @Override
     public User getUserById(long id) {
 
-        Statement stmt = null;
+        PreparedStatement stmt ;
         User user = null;
         try {
-            stmt = connection.createStatement();
-            stmt.executeQuery("select * from user_db where id=" + id);
+            stmt = connection
+                    .prepareStatement("select * from user_db where id = ?");
+            stmt.setLong(1, id);
+            stmt.executeQuery();
             ResultSet result = stmt.getResultSet();
 
             while (result.next()) {
@@ -99,56 +102,74 @@ public class UserJDBCDao implements UserDAO {
     }
 
     @Override
-    public void deleteUser(Long id) {
-        Statement stmt = null;
-        try {
-            stmt = connection.createStatement();
+    public void deleteUser(Long id) throws SQLException {
+        PreparedStatement stmt = null;
 
-            stmt.execute("delete  from user_db where id ='" + id + "'");
-            stmt.close();
-        } catch (SQLException e) {
+        try {
+            connection.setAutoCommit(false);
+            stmt = connection
+                    .prepareStatement("delete  from user_db where id = ?");
+            stmt.setLong(1, id);
+            stmt.execute();
+            connection.commit();
+        } catch (Exception e) {
+                connection.rollback();
+                e.printStackTrace();
             e.printStackTrace();
+        }finally {
+            stmt.close();
         }
     }
 
     @Override
-    public void updateUser(User user) {
+    public void updateUser(User user) throws SQLException {
 
         PreparedStatement stmt = null;
         try {
+            connection.setAutoCommit(false);
             stmt = connection
                     .prepareStatement("UPDATE  `user_db` SET name = ?, password = ?, money = ?, role = ? WHERE id = " + user.getId());
 
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getPassword());
             stmt.setLong(3, user.getMoney());
-            stmt.setString(4, user.getRole().toString());
+            stmt.setString(4, user.getRole());
             stmt.executeUpdate();
-            stmt.close();
-        } catch (SQLException e) {
+            connection.commit();
+        } catch (Exception e) {
+            connection.rollback();
             e.printStackTrace();
+            e.printStackTrace();
+        }finally {
+            stmt.close();
         }
     }
 
     @Override
-    public void addUser(User user) {
+    public void addUser(User user) throws SQLException {
 //проверить наличие имени и пароля
         if (!validateClient(user.getName(), user.getPassword())) {
             System.out.println("!!! Не прошло валидацию!!!");
             return;
         }
+        PreparedStatement stmt = null;
         try {
-
-            PreparedStatement stmt = connection
+            connection.setAutoCommit(false);
+             stmt = connection
                     .prepareStatement("insert into  `user_db`(name, password, money,role) values(?,?,?,?)");
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getPassword());
             stmt.setLong(3, user.getMoney());
             stmt.setString(4, user.getRole().toString());
             stmt.executeUpdate();
-            stmt.close();
-        } catch (SQLException e) {
+            connection.commit();
+
+        } catch (Exception e) {
+            connection.rollback();
             e.printStackTrace();
+            e.printStackTrace();
+        }finally {
+            stmt.close();
         }
     }
 

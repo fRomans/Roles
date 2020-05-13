@@ -45,6 +45,18 @@ public class UsersServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        List<User> users = null;
+        try {
 
+            users = service.getAllUsers();
+            //  throw new SQLException("ffffff") ;
+
+        } catch (SQLException e) {
+            req.setAttribute("SQLException", "SQL запрос не выполнен");
+            e.printStackTrace();
+        }
+        req.setAttribute("users", users);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/showUsers.jsp");
+        dispatcher.forward(req, resp);
     }
 }

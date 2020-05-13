@@ -12,14 +12,12 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static java.util.Objects.nonNull;
 
 @WebFilter(
         urlPatterns = "/admin",
-        filterName = "AuthFilter",
-        description = "Filter all admin URLs"
+        filterName = "AuthFilter"
 )
 
 public class AuthFilter implements Filter {
@@ -35,7 +33,6 @@ public class AuthFilter implements Filter {
 
         final HttpServletRequest req = (HttpServletRequest) request;
         final HttpServletResponse resp = (HttpServletResponse) response;
-
         final String login = req.getParameter("name");
         final String password = req.getParameter("password");
 
@@ -43,7 +40,6 @@ public class AuthFilter implements Filter {
         final HttpSession session = req.getSession();
 
 
-        //Logged user.
         if (nonNull(session) &&
                 nonNull(session.getAttribute("login")) &&
                 nonNull(session.getAttribute("password"))) {
@@ -69,11 +65,7 @@ public class AuthFilter implements Filter {
         }
     }
 
-    /**
-     * Move user to menu.
-     * If access 'admin' move to admin menu.
-     * If access 'user' move to user menu.
-     */
+
     private void moveToMenu(final HttpServletRequest req,
                             final HttpServletResponse resp,
                             final String role)
@@ -97,13 +89,13 @@ public class AuthFilter implements Filter {
 
         } else if (role.equals("user")) {
             resp.sendRedirect("/user");
-            
+
         } else {
 
-            req.setAttribute("nodata","Нет доступа");
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/");
-            dispatcher.forward(req, resp);
-
+          //  req.setAttribute("nodata","Нет доступа");
+//            RequestDispatcher dispatcher = req.getRequestDispatcher("/");
+//            dispatcher.forward(req, resp);
+            resp.sendRedirect("/noname");
         }
     }
 

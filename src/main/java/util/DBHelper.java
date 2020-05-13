@@ -15,7 +15,7 @@ public class DBHelper {
 
 
     @SuppressWarnings("UnusedDeclaration")
-    public static SessionFactory getConfiguration() {
+    public static SessionFactory getSessionFactory() {
         Configuration configuration = new Configuration();
         configuration.addAnnotatedClass(User.class);//Read metadata from the annotations associated with this class.
 

@@ -15,7 +15,7 @@ public class UserHibernateDAO implements UserDAO {
 
     private  UserHibernateDAO() {
         if (sessionFactory == null) {
-            this.sessionFactory = DBHelper.getConfiguration();
+            this.sessionFactory = DBHelper.getSessionFactory();
         }
 
     }
@@ -31,23 +31,21 @@ public class UserHibernateDAO implements UserDAO {
     //проверить наличие имени и пароля
 
     public boolean validateClient(String name, String password) {
-        boolean yes = true;
+        boolean availability = true; // проверка НАЛИЧИЯ name/password
         if (name == null || password == null) {
-            yes = false;
+            availability = false;
         }
-        return yes;
+        return availability;
     }
 
 
     public User getClientByName(String name) {
-        String sql = "select u from User u where u.name= :name";
+        String hql = "select u from User u where u.name= :name";
 
-        User user = (User) sessionFactory
-                .openSession().createQuery(sql)
+        return (User) sessionFactory
+                .openSession().createQuery(hql)
                 .setParameter("name", name)
                 .uniqueResult();
-
-        return user;
 
     }
 
@@ -60,7 +58,7 @@ public class UserHibernateDAO implements UserDAO {
 
 
     public User getUserById(long id) {
-        return (User) sessionFactory.openSession()
+        return sessionFactory.openSession()
                 .get(User.class, id);
     }
 

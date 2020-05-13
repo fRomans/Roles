@@ -8,8 +8,12 @@
     <input required type="text" name="name" placeholder="имя">
     <input required type="text" name="password" placeholder="пароль">
     <input required type="text" name="money" placeholder="деньги">
-    <input required type="text" name="role"  placeholder="доступ">
+<%--    <input required type="text" name="role"  placeholder="доступ">--%>
+    <select name="role" size="1" placeholder="доступ">
+        <option value="admin">admin</option>
+        <option selected="selected" value="user">user</option>
 
+    </select>
     <input type="submit" value="Сохранить">
 </form>
 
