@@ -16,7 +16,7 @@ import java.util.List;
 import static java.util.Objects.nonNull;
 
 @WebFilter(
-        urlPatterns = "/admin",
+        urlPatterns ="/admin",
         filterName = "AuthFilter"
 )
 
@@ -92,9 +92,6 @@ public class AuthFilter implements Filter {
 
         } else {
 
-          //  req.setAttribute("nodata","Нет доступа");
-//            RequestDispatcher dispatcher = req.getRequestDispatcher("/");
-//            dispatcher.forward(req, resp);
             resp.sendRedirect("/noname");
         }
     }

@@ -25,7 +25,7 @@
                     <input type="hidden" name="id" value="${user.getId()}">
                     <input type="submit" value="Изменить" style="float:left">
                 </form>
-                <form action="/admin/delete" method="post">
+                <form action="/admin/delete" method="get">
                     <input type="hidden" name="id" value="${user.getId()}">
                     <input type="submit" value="Удалить" style="float:left">
                 </form></td>
@@ -40,6 +40,6 @@
 <a href="<c:url value='/logout' />">Logout</a>
 
 <p> ${SQLException}</p>
-
+<p> ${error}</p>
 </body>
 </html>
