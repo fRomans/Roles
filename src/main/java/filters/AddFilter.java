@@ -30,8 +30,8 @@ public class AddFilter implements Filter {
                 session.getAttribute("login")==null ||
                 session.getAttribute("password")==null
                 || !session.getAttribute("role").toString().equals("admin")) {
-            req.setAttribute("error", "ошибка доступа к добавлению");
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/showUsers.jsp");
+            req.setAttribute("nodata", "ошибка доступа к добавлению");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/noaccess");
             dispatcher.forward(req, resp);
                    }else {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/admin/add");

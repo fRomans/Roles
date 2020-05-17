@@ -8,10 +8,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebFilter(
-        urlPatterns = "/admin/delete",
-        filterName = "DeleteFilter"
+        urlPatterns ="/user",
+        filterName = "UserFilter"
 )
-public class DeleteFilter implements Filter {
+public class UserFilter implements Filter {
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -27,12 +28,12 @@ public class DeleteFilter implements Filter {
         if (session==null ||
                 session.getAttribute("login")==null ||
                 session.getAttribute("password")==null
-                || !session.getAttribute("role").toString().equals("admin")) {
-            req.setAttribute("nodata", "ошибка доступа к удалению");
+                || !session.getAttribute("role").toString().equals("user")) {
+            req.setAttribute("nodata", "ошибка доступа к user");
             RequestDispatcher dispatcher = req.getRequestDispatcher("/noaccess");
             dispatcher.forward(req, resp);
         }else {
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/admin/delete");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/user");
             dispatcher.forward(req, resp);        }
     }
 
@@ -41,4 +42,3 @@ public class DeleteFilter implements Filter {
 
     }
 }
-

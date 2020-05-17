@@ -9,14 +9,24 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/noname", name = "NoNameServlet")
-public class NoNameServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/noaccess", name = "NoAccessServlet")
+public class NoAccessServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        req.setAttribute("nodata", "Нет доступа");
+        //req.setAttribute("nodata", "Нет доступа");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/");
+        dispatcher.forward(req, resp);
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
+        //req.setAttribute("nodata", "Нет доступа");
         RequestDispatcher dispatcher = req.getRequestDispatcher("/");
         dispatcher.forward(req, resp);
 

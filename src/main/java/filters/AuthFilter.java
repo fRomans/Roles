@@ -35,15 +35,12 @@ public class AuthFilter implements Filter {
         final HttpServletResponse resp = (HttpServletResponse) response;
         final String login = req.getParameter("name");
         final String password = req.getParameter("password");
-
-
         final HttpSession session = req.getSession();
 
 
         if (nonNull(session) &&
                 nonNull(session.getAttribute("login")) &&
                 nonNull(session.getAttribute("password"))) {
-
             final String role =  session.getAttribute("role").toString();
 
             moveToMenu(req, resp, role);
@@ -73,26 +70,16 @@ public class AuthFilter implements Filter {
 
         if (role.equals("admin")) {
 
-            List<User> users = null;
-            try {
-
-                users = service.getAllUsers();
-                //  throw new SQLException("ffffff") ;
-
-            } catch (SQLException e) {
-                req.setAttribute("SQLException", "SQL запрос не выполнен");
-                e.printStackTrace();
-            }
-            req.setAttribute("users", users);
-            RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/showUsers.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/admin");
             dispatcher.forward(req, resp);
 
         } else if (role.equals("user")) {
             resp.sendRedirect("/user");
 
         } else {
-
-            resp.sendRedirect("/noname");
+            req.setAttribute("nodata", "ошибка доступа!!!");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/noaccess");
+            dispatcher.forward(req, resp);
         }
     }
 

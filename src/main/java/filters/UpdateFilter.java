@@ -10,7 +10,7 @@ import java.io.IOException;
 import static java.util.Objects.nonNull;
 
 @WebFilter(
-        urlPatterns ="/admin/update",
+        urlPatterns = "/admin/update",
         filterName = "UpdateFilter"
 )
 public class UpdateFilter implements Filter {
@@ -26,16 +26,17 @@ public class UpdateFilter implements Filter {
         final HttpSession session = req.getSession();
 
 
-        if (session==null ||
-                session.getAttribute("login")==null ||
-                session.getAttribute("password")==null
+        if (session == null ||
+                session.getAttribute("login") == null ||
+                session.getAttribute("password") == null
                 || !session.getAttribute("role").toString().equals("admin")) {
-            req.setAttribute("error", "ошибка доступа к обновлению");
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/showUsers.jsp");
+            req.setAttribute("nodata", "ошибка доступа к обновлению");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/noaccess");
             dispatcher.forward(req, resp);
-        }else {
+        } else {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/admin/update");
-            dispatcher.forward(req, resp);        }
+            dispatcher.forward(req, resp);
+        }
     }
 
     @Override
