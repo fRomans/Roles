@@ -33,8 +33,8 @@ public class UserJDBCDao implements UserDAO {
     }
 
     @Override
-    public User getClientByName(String name) {
-        PreparedStatement stmt ;
+    public User getUserByName(String name) {
+        PreparedStatement stmt;
         User bankClient = null;
         try {
             stmt = connection
@@ -45,7 +45,7 @@ public class UserJDBCDao implements UserDAO {
             while (result.next()) {
                 bankClient = new User(result.getLong(1), result.getString(2),
                         result.getString(3), result.getLong(4),
-                         result.getString(5));
+                        result.getString(5));
             }
 
             result.close();
@@ -57,7 +57,7 @@ public class UserJDBCDao implements UserDAO {
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<User> getAllUsers() throws SQLException {
         List<User> userslist = new LinkedList<>();
         Statement stmt = null;
         try {
@@ -72,31 +72,39 @@ public class UserJDBCDao implements UserDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            stmt.close();
         }
         return userslist;
     }
 
     @Override
-    public User getUserById(long id) {
+    public User getUserById(long id) throws SQLException {
 
-        PreparedStatement stmt ;
+        PreparedStatement stmt = null;
         User user = null;
+        ResultSet result = null;
         try {
+            connection.setAutoCommit(false);
             stmt = connection
                     .prepareStatement("select * from user_db where id = ?");
             stmt.setLong(1, id);
             stmt.executeQuery();
-            ResultSet result = stmt.getResultSet();
+            connection.commit();
+            result = stmt.getResultSet();
 
             while (result.next()) {
                 user = new User(result.getLong(1), result.getString(2),
                         result.getString(3), result.getLong(4),
                         result.getString(5));
             }
+
+        } catch (SQLException e) {
+            connection.rollback();
+            e.printStackTrace();
+        } finally {
             result.close();
             stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return user;
     }
@@ -113,12 +121,67 @@ public class UserJDBCDao implements UserDAO {
             stmt.execute();
             connection.commit();
         } catch (Exception e) {
-                connection.rollback();
-                e.printStackTrace();
+            connection.rollback();
             e.printStackTrace();
-        }finally {
+            e.printStackTrace();
+        } finally {
             stmt.close();
         }
+    }
+
+    @Override
+    public String getRole(final String nameUs, final String passwordUs) throws SQLException {
+
+        String role = null;
+        Statement stmt = null;
+        ResultSet result = null;
+        String sql = "select * from user_db  where name = " + nameUs + " and password =" + passwordUs;
+        try {
+            stmt = connection.createStatement();
+            stmt.execute(sql);
+            result = stmt.getResultSet();
+            while (result.next()) {
+                role = result.getString("role");
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            result.close();
+            stmt.close();
+        }
+        return role;
+    }
+
+    @Override
+    public boolean getUserByNamePass(String nameUs, String passwordUs) throws SQLException {
+        User user = null;
+        Statement stmt = null;
+        ResultSet result = null;
+        boolean exist = false;
+        String sql = "select * from user_db  where name = " + nameUs + " and password =" + passwordUs;
+        try {
+            stmt = connection.createStatement();
+            stmt.execute(sql);
+            result = stmt.getResultSet();
+            while (result.next()) {
+                user = new User(result.getLong(1), result.getString(2),
+                        result.getString(3), result.getLong(4),
+                        result.getString(5));
+                break;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            result.close();
+            stmt.close();
+        }
+        if (user != null) {
+            exist = true;
+        }
+        return exist;
     }
 
     @Override
@@ -140,7 +203,7 @@ public class UserJDBCDao implements UserDAO {
             connection.rollback();
             e.printStackTrace();
             e.printStackTrace();
-        }finally {
+        } finally {
             stmt.close();
         }
     }
@@ -155,7 +218,7 @@ public class UserJDBCDao implements UserDAO {
         PreparedStatement stmt = null;
         try {
             connection.setAutoCommit(false);
-             stmt = connection
+            stmt = connection
                     .prepareStatement("insert into  `user_db`(name, password, money,role) values(?,?,?,?)");
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getPassword());
@@ -168,11 +231,10 @@ public class UserJDBCDao implements UserDAO {
             connection.rollback();
             e.printStackTrace();
             e.printStackTrace();
-        }finally {
+        } finally {
             stmt.close();
         }
     }
-
 
 
     public void createTable() {

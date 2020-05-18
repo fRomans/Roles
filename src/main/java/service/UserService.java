@@ -29,6 +29,7 @@ public class UserService {
     }
 
 
+
     public List<User> getAllUsers() throws SQLException {
         return dao.getAllUsers();
     }
@@ -42,8 +43,13 @@ public class UserService {
         dao.updateUser(user);
     }
 
-    public User getUserById(long id) {
-        User user = dao.getUserById(id);
+    public User getUserById(long id)  {
+        User user = null;
+        try {
+             user = dao.getUserById(id);        } catch (SQLException e) {
+            System.out.println("UserService, метод getUserById" + e );
+        }
+
         return user;
     }
 
@@ -53,29 +59,24 @@ public class UserService {
 
     }
 
-    public String getRoleByLoginPassword(final String name, final String password) {
-        String role = "UNKNOWN";
-        List<User> users = dao.getAllUsers();
-        for (User user : users) {
-            if (user.getName().equals(name) && user.getPassword().equals(password)) {
-                role = user.getRole();
-            }
+    public String getRoleByLoginPassword(final String name, final String password)  {
+        String role = null;
+        try {
+            role = dao.getRole(name,password);
+        } catch (SQLException e) {
+            System.out.println("UserService, метод getRoleByLoginPassword" + e );
         }
-
         return role;
     }
 
-    public boolean userIsExist(final String name, final String password) {
-        List<User> users = dao.getAllUsers();
-        boolean result = false;
-        for (User user : users) {
-            if (user.getName().equals(name) && user.getPassword().equals(password)) {
-                result = true;
-                break;
-            }
+    public boolean userIsExist(final String name, final String password)  {
+        boolean exist = false;
+        try {
+            exist = dao.getUserByNamePass(name,password);
+        } catch (SQLException e) {
+            System.out.println("UserService, метод userIsExist" + e );
         }
-
-        return result;
+        return exist;
     }
 
 

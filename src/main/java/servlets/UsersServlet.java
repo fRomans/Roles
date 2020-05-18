@@ -2,15 +2,10 @@ package servlets;
 
 import model.User;
 import service.UserService;
-
 import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

@@ -6,22 +6,23 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import util.DBHelper;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class UserHibernateDAO implements UserDAO {
 
-    private static  SessionFactory sessionFactory;
+    private static SessionFactory sessionFactory;
     private static UserHibernateDAO instance;
 
-    private  UserHibernateDAO() {
+    private UserHibernateDAO() {
         if (sessionFactory == null) {
             this.sessionFactory = DBHelper.getSessionFactory();
         }
 
     }
 
-    public static UserHibernateDAO getInstance(){
-        if (instance==null){
+    public static UserHibernateDAO getInstance() {
+        if (instance == null) {
             instance = new UserHibernateDAO();
         }
         return instance;
@@ -38,8 +39,38 @@ public class UserHibernateDAO implements UserDAO {
         return availability;
     }
 
+    @Override
+    public String getRole(String nameus, String passwordus) throws SQLException {
+        String hql = "select u from User u where u.name= :nameus and u.password= :passwordus";
+        User user =(User) sessionFactory
+                .openSession()
+                .createQuery(hql)
+                .setParameter("nameus", nameus)
+                .setParameter("passwordus", passwordus)
+                .uniqueResult();;
+        String role = user.getRole() ;
+        return role;
+    }
 
-    public User getClientByName(String name) {
+    public boolean getUserByNamePass(final String nameus, final String passwordus)throws SQLException{
+        String hql = "select u from User u where u.name= :nameus and u.password= :passwordus";
+        boolean result = false;
+
+        User user =(User) sessionFactory
+                .openSession()
+                .createQuery(hql)
+                .setParameter("nameus", nameus)
+                .setParameter("passwordus", passwordus)
+                .uniqueResult();
+        if (user!=null){
+           result = true;
+        }else {
+            result = false;
+        }
+        return result;
+    }
+
+    public User getUserByName(String name) {
         String hql = "select u from User u where u.name= :name";
 
         return (User) sessionFactory
@@ -114,5 +145,6 @@ public class UserHibernateDAO implements UserDAO {
             session.close();
         }
     }
+
 
 }

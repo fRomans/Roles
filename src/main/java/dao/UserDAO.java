@@ -13,17 +13,21 @@ public interface UserDAO {
 
      boolean validateClient(String name, String password);
 
-     User getClientByName(String name);
+     User getUserByName(String name);
 
-     List<User> getAllUsers() ;
+     List<User> getAllUsers() throws SQLException;
 
-     User getUserById(long id);
+     User getUserById(long id)throws SQLException;
 
      void deleteUser(Long id) throws SQLException;
 
      void updateUser(User user) throws SQLException;
 
      void addUser(User user) throws SQLException;
+
+      String getRole(final String name, final String password)throws SQLException;
+
+      boolean getUserByNamePass(final String name, final String password)throws SQLException;
 
 
 
