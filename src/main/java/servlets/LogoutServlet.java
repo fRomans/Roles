@@ -21,11 +21,11 @@ public class LogoutServlet extends HttpServlet {
             throws ServletException, IOException {
 
 
-        final HttpSession session = req.getSession();
+        req.getSession(false).invalidate();
 
-        session.removeAttribute("password");
-        session.removeAttribute("login");
-        session.removeAttribute("role");
+//        session.removeAttribute("password");
+//        session.removeAttribute("login");
+//        session.removeAttribute("role");
 
         resp.sendRedirect("/");
     }

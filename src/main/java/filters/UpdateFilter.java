@@ -1,5 +1,7 @@
 package filters;
 
+import model.User;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -23,13 +25,16 @@ public class UpdateFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         final HttpServletRequest req = (HttpServletRequest) request;
         final HttpServletResponse resp = (HttpServletResponse) response;
-        final HttpSession session = req.getSession();
+        final HttpSession session = req.getSession(false);
+        User user = (User) req.getSession().getAttribute("user");
+        final String login = user.getName();
+        final String password = user.getPassword();
+        final String role = user.getRole();
 
 
-        if (session == null ||
-                session.getAttribute("login") == null ||
-                session.getAttribute("password") == null
-                || !session.getAttribute("role").toString().equals("admin")) {
+
+        if (session == null || login == null || password == null
+                || !role.equals("admin")) {
             req.setAttribute("nodata", "ошибка доступа к обновлению");
             RequestDispatcher dispatcher = req.getRequestDispatcher("/noaccess");
             dispatcher.forward(req, resp);
