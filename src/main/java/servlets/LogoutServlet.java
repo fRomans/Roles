@@ -20,8 +20,8 @@ public class LogoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-
-        req.getSession(false).invalidate();
+        HttpSession session = req.getSession(false);
+        session.invalidate();
 
 //        session.removeAttribute("password");
 //        session.removeAttribute("login");

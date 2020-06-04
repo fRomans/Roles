@@ -17,6 +17,8 @@ public class NoAccessServlet extends HttpServlet {
             throws ServletException, IOException {
 
         //req.setAttribute("nodata", "Нет доступа");
+        HttpSession session = req.getSession(false);
+        session.invalidate();
         RequestDispatcher dispatcher = req.getRequestDispatcher("/");
         dispatcher.forward(req, resp);
 
@@ -27,6 +29,8 @@ public class NoAccessServlet extends HttpServlet {
             throws ServletException, IOException {
 
         //req.setAttribute("nodata", "Нет доступа");
+        HttpSession session = req.getSession(false);
+        session.invalidate();
         RequestDispatcher dispatcher = req.getRequestDispatcher("/");
         dispatcher.forward(req, resp);
 
