@@ -38,9 +38,14 @@ public class AuthFilter implements Filter {
         final HttpSession session = req.getSession(false);
 //есть ли сессия
 
-        if (session != null ) {
+        if (session != null) {
             User user = (User) req.getSession().getAttribute("user");
-
+            if (user == null) {
+                req.setAttribute("nodata", "ошибка доступа!!!");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("/noaccess");
+                dispatcher.forward(req, resp);
+                return;
+            }
             if (user.getRole().equals("admin")) {
 
                 RequestDispatcher dispatcher = req.getRequestDispatcher("/admin");

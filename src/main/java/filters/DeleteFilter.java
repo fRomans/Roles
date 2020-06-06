@@ -25,6 +25,11 @@ public class DeleteFilter implements Filter {
         final HttpServletResponse resp = (HttpServletResponse) response;
         final HttpSession session = req.getSession(false);
         User user = (User) req.getSession().getAttribute("user");
+        if (user==null){
+            req.setAttribute("nodata", "ошибка доступа к удалению");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/noaccess");
+            dispatcher.forward(req, resp);
+        }
         final String login = user.getName();
         final String password = user.getPassword();
         final String role = user.getRole();

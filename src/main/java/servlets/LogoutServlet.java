@@ -19,13 +19,23 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        int timeout = 1;
 
         HttpSession session = req.getSession(false);
-        session.invalidate();
+        if (session == null){
+            resp.sendRedirect("/");
+        }else {
+       session.invalidate();
+        resp.sendRedirect("/");
+        }
+    }
 
-//        session.removeAttribute("password");
-//        session.removeAttribute("login");
-//        session.removeAttribute("role");
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
+        HttpSession session = req.getSession(false);
+         session.invalidate();
 
         resp.sendRedirect("/");
     }

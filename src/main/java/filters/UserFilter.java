@@ -28,6 +28,12 @@ public class UserFilter implements Filter {
         final HttpServletRequest req = (HttpServletRequest) request;
         final HttpServletResponse resp = (HttpServletResponse) response;
         User user = (User) req.getSession().getAttribute("user");
+        if (user==null){
+            req.setAttribute("nodata", "ошибка доступа к user");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/noaccess");
+            dispatcher.forward(req, resp);
+            return;
+        }
         final String login = user.getName();
         final String password = user.getPassword();
         final String role = user.getRole();
@@ -40,7 +46,14 @@ public class UserFilter implements Filter {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/user");
             dispatcher.forward(req, resp);
             return;
-        } else {
+        }else if (service.userIsExist(login, password) & role.equals("admin")){
+            req.getSession().setAttribute("password", password);
+            req.getSession().setAttribute("login", login);
+            req.getSession().setAttribute("role", role);
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/user");
+            dispatcher.forward(req, resp);
+            return;
+        }else {
             req.setAttribute("nodata", "ошибка доступа к user");
             RequestDispatcher dispatcher = req.getRequestDispatcher("/noaccess");
             dispatcher.forward(req, resp);
